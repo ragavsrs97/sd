@@ -1,0 +1,66 @@
+body {
+    margin: 0;
+    font-family: "Helvetica Neue",Helvetica,Arial,sans-serif;
+    font-size: 14px;
+    line-height: 20px;
+    color: #333;
+    background-color: #fff;
+}
+header {
+  background-color: #E6E6FA;
+  
+  width: 200px;
+  opacity: .7;
+  margin:0 auto;
+  
+}
+ 
+header h1.logo {
+ 
+  font-size: 1.7em;
+  color: #444;
+  text-transform: uppercase;
+  
+}
+header h1.logo:hover {
+  color: #fff;
+  text-decoration: none;
+}
+.container {
+  width: 200px;
+  margin: 0 auto;
+  background-color: #E6E6FA;
+
+}
+.custom-file-input::-webkit-file-upload-button {
+  visibility: hidden;
+}
+.custom-file-input::before {
+  content: 'Select some files';
+  display: inline-block;
+  background: -webkit-linear-gradient(top, #f9f9f9, #e3e3e3);
+  border: 1px solid #999;
+  border-radius: 3px;
+  padding: 5px 8px;
+  outline: none;
+  white-space: nowrap;
+  -webkit-user-select: none;
+  cursor: pointer;
+  text-shadow: 1px 1px #fff;
+  font-weight: 700;
+  font-size: 14pt;
+}
+.custom-file-input:hover::before {
+  border-color: black;
+}
+.custom-file-input:active::before {
+  background: -webkit-linear-gradient(top, #e3e3e3, #f9f9f9);
+}
+#Language option{
+  width:300px;   
+}
+#button-style{
+	margin-left:10px;
+}
+
+

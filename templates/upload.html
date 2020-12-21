@@ -1,0 +1,260 @@
+<!DOCTYPE html>
+<html  lang="en-US">
+<style>
+.navbar-fixed-top {
+    top: 0;
+    border-width: 0 0 1px;
+}
+input[type="file"] {
+    display: none;
+}
+.custom-file-upload {
+    margin-left: 2 px;
+    border: 1px solid #ccc;
+    display: inline-block;
+    padding: 6px 12px;
+    cursor: pointer;
+}
+
+
+hh1{
+   
+    font-size: 25px;
+    font-family: verdana;
+    color: #004466;
+    font-weight: bold;
+}
+
+
+</style>    
+<head>
+  
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.5.3/dist/css/bootstrap.min.css" integrity="sha384-TX8t27EcRE3e/ihU7zmQxVncDAy5uIKz4rEkgIXeMed4M0jlfIDPvg6uqKI2xXr2" crossorigin="anonymous">
+<title>Upload</title>
+
+<title>Upload</title>
+<meta name="viewport" content="width=device-width,height=device-height, initial-scale=1.0">
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/1.12.0/jquery.min.js"></script>
+</head>
+<body>
+    <nav class="navbar navbar-expand-lg navbar navbar-dark bg-primary navbar-fixed-top">
+        
+        <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
+          <span class="navbar-toggler-icon"></span>
+        </button>
+        <div class="collapse navbar-collapse" id="navbarNav">
+          <ul class="navbar-nav">
+            <li class="nav-item active">
+              <a class="nav-link" href="{{ url_for('index') }}">Home <span class="sr-only">(current)</span></a>
+            </li>
+            <li class="nav-item">
+              <a class="nav-link" href="#">Features</a>
+            </li>
+            <li class="nav-item">
+              <a class="nav-link" href="#">Pricing</a>
+            </li>
+            <li class="nav-item">
+              <a class="nav-link disabled" href="#" tabindex="-1" aria-disabled="true">Disabled</a>
+            </li>
+          </ul>
+        </div>
+      </nav>
+      
+      <div class="container">
+      <p class="text-center"> <hh1>Tamil Online Ocr!</hh1></p>   
+    
+   
+    
+
+
+<form id="upload-form" action="{{ url_for('upload') }}" method="POST" enctype="multipart/form-data">
+    
+    <p style="margin-left: 10px;"><b>UPLOAD FILE<b</p>
+  
+    <div class="custom-file">
+        <label for="file-picker" class="custom-file-upload">
+        <i class="fa fa-cloud-upload"></i> Choose File
+    </label>   
+    <input id="file-picker"  type="file" name="file" accept="application/pdf,image/*" style="display:none;" >
+    
+    <select  onchange="showMov(this.value);" name="document_type" id="document_type" style="width: 220px !important; margin-left:30px  ;"  >
+        <option value="0" selected>Text Plain(.txt)</option>&nbsp;
+        <option value="1">Microsoft Word(.docx)</option>&nbsp;
+        <option value="2">Microsoft Excel(.xlsx)</option>&nbsp;
+        <option value="3">Portable Document Format(.pdf)</option> 
+    <input type="submit" value="CONVERT"style="margin-left:45px;!important;" class="btn btn-primary"  disabled >
+   
+    
+           
+  
+    </div>
+</form>
+<p id="msg" style="margin-left:10px;"></p>
+   {% if extracted_text %}
+  
+   
+
+<br>
+
+<form id="upload-form" action="{{ url_for('Translate') }}" method="POST" enctype="multipart/form-data" style="display: block;width: 100%;">  
+    <div class="form-group">
+        <textarea name="OCR_TEXT" class= “form-control” rows="3" id="MainContent_txtOCRResultText"  wrap="hard" style="height:140px;width:635px;margin-left:10px;max-width:100%;">
+            {{ extracted_text }}
+         </textarea>
+        </div>
+   
+    <div class="row">
+       
+        <div class="col-sm-3 ">
+            <select  name="Trans_lang" id="Trans_lang"  style="width: 125px !important;margin-left: 10px;" >
+                <option value="en">English</option>&nbsp;
+                <option value="te">Telegu</option>&nbsp;
+                <option value="ml">Malayalam</option>&nbsp;
+                <option value="hi">Hindi</option>&nbsp;
+                <option value="kn">Kannada</option>&nbsp;
+            <input type="submit" value="Translate" style="margin-left:30px; "  >
+            </div>
+            <div class="col-sm-9">
+                <img id="image" src="{{url_for('static', filename='TXT.png')}}" />
+                <a href="javascript:download();" style="display:inline-block;font-family:Verdana;font-size:Small;font-weight:bold;text-decoration:none;height:11px;">Download Output File </a>
+           
+            </div>
+        </div>
+      
+     
+</form>
+  
+<br>
+   {% endif %}
+   {% if Translated_text %}
+   <div class="form-group">
+   <textarea name="Translated_TEXT" rows="3" class= “form-control” id="Translated_TEXT_Result" style="height:140px;width:635px;margin-left: 10px;max-width: 100%;">{{ Translated_text }}
+   </textarea>
+    {% endif %}
+   
+   </div>
+   </div>
+   <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js" integrity="sha384-DfXdz2htPH0lsSSs5nCTpuj/zy4C+OGpamoFVy38MVBnE+IbbVYUew+OrCXaRkfj" crossorigin="anonymous"></script>
+   <script src="https://cdn.jsdelivr.net/npm/popper.js@1.16.1/dist/umd/popper.min.js" integrity="sha384-9/reFTGAW83EW2RDu2S0VKaIzap3H66lZH81PoYlFhbGU+6BZp6G7niu735Sk7lN" crossorigin="anonymous"></script>
+   <script src="https://cdn.jsdelivr.net/npm/bootstrap@4.5.3/dist/js/bootstrap.min.js" integrity="sha384-w1Q4orYjBQndcko6MimVbzY0tgp4pWB4lZ7lr30WKz0vr/aWKhXdBNmNb5D92v7s" crossorigin="anonymous"></script>
+   <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/1.3.5/jspdf.min.js"></script>
+
+
+</body>
+<script>
+    var pictureList = [
+    "{{url_for('static', filename='TXT.png')}}",
+    "{{url_for('static', filename='DOCX.png')}}",
+    "{{url_for('static', filename='XLSX.png')}}",
+    "{{url_for('static', filename='crop3.jpg')}}"
+    ];
+    $('#document_type').change(function () {
+    var val = parseInt($('#document_type').val());
+    $('img').attr("src",pictureList[val]);
+});
+
+function showMov(val) {
+  sessionStorage.setItem('SelectedItem', val);
+ 
+}
+
+$(function() {
+  var selMovType = document.getElementById('document_type');
+  var selectedItem = sessionStorage.getItem('SelectedItem');
+ 
+
+  if (selectedItem) {
+    selMovType.value = selectedItem;
+  }
+  
+    var val = parseInt($('#document_type').val());
+    $('img').attr("src",pictureList[val]);
+  
+});
+
+    $('input:file').change(function(){
+       
+
+        var input = document.getElementById('file-picker');
+
+        for (var i=0; i<input.files.length; i++)
+        {
+        //koala.jpg, koala.JPG substring(index) lastIndexOf('a') koala.1.jpg
+            var ext= input.files[i].name.substring(input.files[i].name.lastIndexOf('.')+1).toLowerCase()
+
+            if ((ext == 'jpg') || (ext == 'png') || (ext == 'pdf'))
+            {   var filename = $('input[type=file]').val().split('\\').pop();
+                $("#msg").text(filename)
+                $('input:submit').attr('disabled',false); 
+            }
+            else
+            {
+                $("#msg").text("Files are NOT supported")
+                $('input:submit').attr('disabled',true); 
+            }
+
+        }
+      
+
+
+    } );
+    
+       
+  
+    function download(){
+    var text = document.getElementById("MainContent_txtOCRResultText" ).value;
+    text = text.replace(/\n/g, "\r\n");
+    var blob = new Blob([text], { type: "text/plain"});
+    var anchor = document.createElement("a");
+    var sel = document.getElementById("document_type");
+    var text= sel.options[sel.selectedIndex].text;
+    if (text == "Text Plain(.txt)"){
+        anchor.download ="ocr_tamil.txt" ;
+        anchor.href = window.URL.createObjectURL(blob);
+        anchor.target ="_blank";
+        anchor.style.display = "none"; // just to be safe!
+        document.body.appendChild(anchor);
+        anchor.click();
+        document.body.removeChild(anchor);
+        save();
+    } 
+    if (text == "Microsoft Word(.docx)"){
+        anchor.download ="ocr_tamil.docx" ;
+        anchor.href = window.URL.createObjectURL(blob);
+        anchor.target ="_blank";
+        anchor.style.display = "none"; // just to be safe!
+        document.body.appendChild(anchor);
+        anchor.click();
+        document.body.removeChild(anchor);
+    }
+    if (text =="Microsoft Excel(.xlsx)"){
+        anchor.download="ocr_tamil.xslx"
+        anchor.href = window.URL.createObjectURL(blob);
+        anchor.target ="_blank";
+        anchor.style.display = "none"; // just to be safe!
+        document.body.appendChild(anchor);
+        anchor.click();
+        document.body.removeChild(anchor);
+    }
+    if (text == "Portable Document Format(.pdf)"){
+        var divContents = $("#MainContent_txtOCRResultText").html();
+            var printWindow = window.open('', '', 'height=400,width=800');
+            printWindow.document.write('<html><head><title></title>');
+            printWindow.document.write('</head><body >');
+            printWindow.document.write(divContents);
+            printWindow.document.write('</body></html>');
+            printWindow.document.close();
+            printWindow.print();
+
+   
+   
+    
+    
+ }}
+   
+    
+
+
+</script>
+
+</html>
